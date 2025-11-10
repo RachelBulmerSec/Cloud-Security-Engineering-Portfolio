@@ -1,0 +1,10 @@
+DeviceEvents
+| where ActionType in ("ControlledFolderAccessViolationAudited", "ControlledFolderAccessViolationBlocked")
+| project Timestamp,
+          DeviceName,
+          FileName,
+          FolderPath,
+          InitiatingProcessFileName,
+          InitiatingProcessCommandLine,
+          InitiatingAccount = InitiatingProcessAccountName
+| sort by Timestamp desc
