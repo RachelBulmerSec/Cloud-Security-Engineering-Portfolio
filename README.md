@@ -213,6 +213,7 @@ DeviceProcessEvents
 <br>
 <br>
 </br>
+
 ### _**Untrusted process detected on device**_
 
 Purpose: Ensures that only approved, digitally-signed applications can run. This rule flags any process that runs from an untrusted folder (like a 'Downloads' folder) and isn't signed by a trusted vendor (like Microsoft or Google). This is a common attacker technique to run malicious tools.
