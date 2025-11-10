@@ -26,13 +26,14 @@ Solution: This advanced script audits all Service Principals, finds their direct
 
 <hr style="border:0; height:1px; background-color:#f0f0f0;">
 
-<div style="height: 1px; background-color: #eeeeee; margin: 15px 0;"></div>
 
 **Audit_MFA_Registration_Status.ps1**
 
-Problem: Needing a fast, modern way to audit which users have not registered any MFA methods.
+    -Problem: Needing a fast, modern way to audit which users have not registered any MFA methods.
 
-Solution: Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods.
+    -Solution: Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods.
+
+<hr style="border:0; height:1px; background-color:#f0f0f0;">
 
 **Utility_Get_OAuth_Token.ps1**
 
