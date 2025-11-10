@@ -144,7 +144,7 @@ This section contains a collection of custom-built KQL queries I have developed 
 ### **4.1 Endpoint & ASR Detections**
 ___
 ##### **Suspicious Child Process from msiexec.exe**
-
+_____
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
 
 MITRE ATT&CK Tactic(s): Defense Evasion
