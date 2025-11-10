@@ -1,8 +1,8 @@
-Rachel Bulmer's Security Engineering Portfolio
+**Rachel Bulmer's Security Engineering Portfolio**
 
 This repository contains a collection of PowerShell scripts I have authored for security auditing, endpoint hardening, and automation within a Microsoft 365 and Azure environment. These tools demonstrate practical, hands-on experience in solving real-world engineering challenges, moving beyond "out-of-the-box" configurations to build custom, automated, and secure solutions.
 
-Portfolio Highlights
+**Portfolio Highlights**
 
 Advanced Identity Auditing: Scripts that audit complex, inherited permissions for Azure Service Principals and report on modern MFA registration status.
 
@@ -12,12 +12,12 @@ Modern API & Automation: A focus on using the modern Microsoft Graph API (as opp
 
 KQL Threat Hunting: Custom, tuned KQL queries for proactive threat hunting in Microsoft Sentinel, focused on high-fidelity, low-noise alerts.
 
-1. Identity & Access Management (IAM)
+**1. Identity & Access Management (IAM)**
 
 (Files stored in 01_Identity_IAM)
-Scripts focused on auditing and securing identities in Azure Active Directory.
+Scripts focused on auditing and securing identities in Azure Active Directory.**
 
-Audit_Azure_ServicePrincipal_Permissions.ps1
+Audit_Azure_ServicePrincipal_Permissions.ps1**
 
 Problem: Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group.
 
@@ -747,7 +747,7 @@ UserBehaviorAnalysis
 | extend AccountName = tostring(split(UserId, "@")[0]), AccountUPNSuffix = tostring(split(UserId, "@")[1])
 
 
-Malicious Inbox Rule
+**Malicious Inbox Rule**
 
 Purpose: Detects when an attacker, after compromising an email account, creates an 'Inbox Rule' to hide their tracks. This rule specifically looks for rules that automatically delete emails containing keywords like 'phishing', 'malicious', or 'suspicious', which attackers use to prevent the real user from seeing warning messages.
 
@@ -771,3 +771,5 @@ or SubjectOrBodyContainsWords has_any (Keywords)
 | summarize count(), StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated) by  Operation, UserId, ClientIPAddress, ResultStatus, Keyword, OriginatingServer, OfficeObjectId, RuleDetail
 | extend AccountName = tostring(split(UserId, "@")[0]), AccountUPNSuffix = tostring(split(UserId, "@")[1])
 | extend OriginatingServerName = tostring(split(OriginatingServer, " ")[0])
+
+
