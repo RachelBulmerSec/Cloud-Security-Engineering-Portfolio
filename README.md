@@ -310,7 +310,7 @@ DeviceEvents
 | sort by Timestamp desc
 ```
 
-# **ASR - Credential Stealing from LSASS Detected**
+### _**ASR - Credential Stealing from LSASS Detected**_
 
 Purpose: This ASR rule specifically detects an attempt to steal passwords from the 'LSASS' process in memory—the digital equivalent of a password vault on Windows. This is a classic (and very serious) attacker technique used by tools like Mimikatz.
 
