@@ -42,7 +42,7 @@ Problem: Manually rotating passwords for Azure AD service accounts is tedious.
 
 Solution: A simple utility script to generate a strong random password and apply it to a specified Azure AD user account (by ObjectId).
 
-**2. Endpoint Hardening (Intune Proactive Remediations)**
+##**2. Endpoint Hardening (Intune Proactive Remediations)**
 
 (Files stored in 02_Endpoint_Intune)
 A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
@@ -82,8 +82,8 @@ Solution: This is a remediation-only script that runs as System, finds the appli
 Problem: Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions").
 
 Solution: A simple but effective script to directly set registry values, designed to be deployed via Intune.
-**
-3. Auditing & Reporting**
+
+##**3. Auditing & Reporting**
 
 (Files stored in 03_Audit_Reporting)
 Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
@@ -136,14 +136,14 @@ Problem: A machine is online, but remote administration tools (like Event Viewer
 
 Solution: A senior-level troubleshooting utility that, from the admin's machine, remotely tests Ping, WinRM connection, core service status (RPC, Remote Registry), and firewall rule state on the target computer.
 
-**4. KQL Analytic Rules (Microsoft Sentinel)**
+##**4. KQL Analytic Rules (Microsoft Sentinel)**
 
 (Files stored in 04_Sentinel_KQL)
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
 
 **4.1 Endpoint & ASR Detections**
 
-**Suspicious Child Process from msiexec.exe**
+#**Suspicious Child Process from msiexec.exe**
 
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
 
@@ -211,7 +211,7 @@ DeviceProcessEvents
 | sort by Timestamp desc
 ```
 
-Untrusted process detected on device
+#**Untrusted process detected on device**
 
 Purpose: Ensures that only approved, digitally-signed applications can run. This rule flags any process that runs from an untrusted folder (like a 'Downloads' folder) and isn't signed by a trusted vendor (like Microsoft or Google). This is a common attacker technique to run malicious tools.
 
@@ -291,7 +291,7 @@ DeviceProcessEvents
     SHA256
 ```
 
-**ASR - Process Creation from PsExec or WMI**
+#**ASR - Process Creation from PsExec or WMI**
 
 Purpose: ASR stands for 'Attack Surface Reduction'. This rule detects a common "lateral movement" technique where an attacker, already on one machine, uses legitimate admin tools (PsExec or WMI) to run commands on other machines in the network.
 
@@ -310,7 +310,7 @@ DeviceEvents
 | sort by Timestamp desc
 ```
 
-**ASR - Credential Stealing from LSASS Detected**
+#**ASR - Credential Stealing from LSASS Detected**
 
 Purpose: This ASR rule specifically detects an attempt to steal passwords from the 'LSASS' process in memory—the digital equivalent of a password vault on Windows. This is a classic (and very serious) attacker technique used by tools like Mimikatz.
 
@@ -328,7 +328,7 @@ DeviceEvents
 | sort by Timestamp desc
 ```
 
-**Ransomware-like Activity - Controlled Folder Access Violation**
+#**Ransomware-like Activity - Controlled Folder Access Violation**
 
 Purpose: This rule is a high-priority ransomware alarm. It detects when the 'Controlled Folder Access' (CFA) feature in Windows blocks an unauthorized program from modifying files in protected folders (like 'Documents'). This is a hallmark of a ransomware attack in its initial encryption phase.
 
@@ -346,7 +346,7 @@ DeviceEvents
 | sort by Timestamp desc
 ```
 
-**WDAC Audit Event Detected**
+#**WDAC Audit Event Detected**
 
 Purpose: WDAC (Windows Defender Application Control) is a strict 'Application Control' policy. This rule simply alerts when a user tries to run a program that was blocked by the policy. It provides visibility into policy enforcement and helps identify if/when employees are attempting to run unauthorized software.
 
@@ -357,7 +357,7 @@ DeviceEvents
 | where ActionType contains "Audited"
 ```
 
-**COM Registry Key Modified to Point to File in Color Profile Folder**
+#**COM Registry Key Modified to Point to File in Color Profile Folder**
 
 Purpose: Highly specific detection for a persistence technique involving modifying COM registry keys (CLSID) to point to the color profile folder (System32\spool\drivers\color) for persistent execution.
 
@@ -380,9 +380,9 @@ let guids = dynamic(["{ddc05a5a-351a-4e06-8eaf-54ec1bc2dcea}","{1f486a52-3cb1-48
   | extend HostNameDomain = iff(DomainIndex != -1, substring(DeviceName, DomainIndex + 1), DeviceName)
 ```
 
-**4.2 Identity & Access Management Detections**
+##**4.2 Identity & Access Management Detections**
 
-**Emergency Admin Login Detected**
+#**Emergency Admin Login Detected**
 
 Purpose: This is a high-priority alert for a specific 'break-glass' emergency administrator account. Nobody should be logging in with this account during normal operations. This alert ensures any use of this highly-privileged account (identified by its unique UserId) is immediately investigated.
 
@@ -402,7 +402,7 @@ SigninLogs
 | project TimeGenerated, Identity, OperationName, ResultType, ResultSignature, ResultDescription, IPAddress, Location, ResourceDisplayName, AppDisplayName, deviceId, operatingSystem, browser, deviceName, compliancy, managed
 ```
 
-**Risky Sign in Detected**
+#**Risky Sign in Detected**
 
 Purpose: This rule validates that our automated MFA policies are working. It alerts when a user's sign-in is flagged as 'risky' by Microsoft (e.g., from a new country) and that sign-in was then correctly challenged by the "Require multifactor authentication for risky sign-ins" Conditional Access policy.
 
@@ -415,7 +415,7 @@ SigninLogs
 | where PolicyName contains "Require multifactor authentication for risky sign-ins"
 ```
 
-**Sign-ins from IPs that attempt sign-ins to disabled accounts**
+#**Sign-ins from IPs that attempt sign-ins to disabled accounts**
 
 Purpose: This rule spots an attacker probing for active accounts. It finds IP addresses that tried to log into disabled accounts and then checks if that same IP successfully logged into an active account, indicating a successful breach and providing a high-confidence alert.
 
@@ -472,7 +472,7 @@ union isfuzzy=true aadSignin, aadNonInt
 | sort by IPInvestigationPriority desc
 ```
 
-**SharePointFileOperation via devices with previously unseen user agents**
+#**SharePointFileOperation via devices with previously unseen user agents**
 
 Purpose: Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
 
@@ -524,9 +524,9 @@ MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
     | order by UserAgentSeenCount desc, UserAgent asc, UserId asc, Site_Url asc
 ```
 
-**4.3 Threat Intelligence (TI) Detections**
+##**4.3 Threat Intelligence (TI) Detections**
 
-**TI Map IP Entity to SigninLogs**
+#**TI Map IP Entity to SigninLogs**
 
 Purpose: Stands for 'Threat Intelligence Map'. This rule automatically checks all user sign-ins against a live, external list of known-malicious IP addresses (Threat Intelligence) to flag any employee sign-in originating from a command-and-control server.
 
@@ -569,7 +569,7 @@ TI
 | extend timestamp = SigninLogs_TimeGenerated, Name = tostring(split(UserPrincipalName, '@', 0)[0]), UPNSuffix = tostring(split(UserPrincipalName, '@', 1)[0])
 ```
 
-**TI Map IP Entity to AzureActivity**
+#**TI Map IP Entity to AzureActivity**
 
 Purpose: Similar to the rule above, but this one checks administrator activity within Azure (like creating a virtual machine) against the same malicious IP list. This helps catch attackers who have already compromised an admin account and are using it to build infrastructure.
 
@@ -615,7 +615,7 @@ Caller, OperationNameValue, ActivityStatusValue, CategoryValue, ResourceId, Netw
 | extend AadUserId = iif(Caller !has '@', tostring(Caller), "")
 ```
 
-**TI Map URL Entity to UrlClickEvents**
+#**TI Map URL Entity to UrlClickEvents**
 
 Purpose: This 'Threat Intelligence' rule scans the links users are clicking in their emails (via Microsoft Defender's "Safe Links"). It compares every clicked link against a live list of known-malicious phishing websites and alerts if there's a match.
 
@@ -653,9 +653,9 @@ let TI = materialize(ThreatIntelligenceIndicator
 | extend timestamp = UrlClickEvents_TimeGenerated, Name = tostring(split(AccountUpn, '@', 0)[0]), UPNSuffix = tostring(split(AccountUpn, '@', 1)[0])
 ```
 
-**4.4 M365 & Exchange Detections**
+##**4.4 M365 & Exchange Detections**
 
-**SharePointFileOperation via devices with previously unseen user agents**
+#**SharePointFileOperation via devices with previously unseen user agents**
 
 Purpose: Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
 
@@ -707,7 +707,7 @@ MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
     | order by UserAgentSeenCount desc, UserAgent asc, UserId asc, Site_Url asc
 ```
 
-**SharePointFileOperation via previously unseen IPs**
+#**SharePointFileOperation via previously unseen IPs**
 
 Purpose: This rule detects anomalous file activity in SharePoint. It builds a 14-day baseline of who accesses what from which IP address. It then flags a user who, for example, suddenly downloads or uploads 25x (2500%) more files than their personal average from a specific IP, indicating a potential data breach or exfiltration.
 
@@ -748,7 +748,7 @@ UserBehaviorAnalysis
 | extend AccountName = tostring(split(UserId, "@")[0]), AccountUPNSuffix = tostring(split(UserId, "@")[1])
 ```
 
-**Malicious Inbox Rule**
+#**Malicious Inbox Rule**
 
 Purpose: Detects when an attacker, after compromising an email account, creates an 'Inbox Rule' to hide their tracks. This rule specifically looks for rules that automatically delete emails containing keywords like 'phishing', 'malicious', or 'suspicious', which attackers use to prevent the real user from seeing warning messages.
 
