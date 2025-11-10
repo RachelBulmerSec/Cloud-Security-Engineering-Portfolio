@@ -42,8 +42,8 @@ Problem: Manually rotating passwords for Azure AD service accounts is tedious.
 
 Solution: A simple utility script to generate a strong random password and apply it to a specified Azure AD user account (by ObjectId).
 
-## **2. Endpoint Hardening (Intune Proactive Remediations)**
-
+### **2. Endpoint Hardening (Intune Proactive Remediations)**
+___
 (Files stored in 02_Endpoint_Intune)
 A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
 
@@ -83,8 +83,8 @@ Problem: Need to enforce specific, non-standard registry settings for compliance
 
 Solution: A simple but effective script to directly set registry values, designed to be deployed via Intune.
 
-## **3. Auditing & Reporting**
-
+### **3. Auditing & Reporting**
+___
 (Files stored in 03_Audit_Reporting)
 Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
 
@@ -141,9 +141,9 @@ Solution: A senior-level troubleshooting utility that, from the admin's machine,
 (Files stored in 04_Sentinel_KQL)
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
 
-## **4.1 Endpoint & ASR Detections**
-
-# **Suspicious Child Process from msiexec.exe**
+### **4.1 Endpoint & ASR Detections**
+___
+##### **Suspicious Child Process from msiexec.exe**
 
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
 
