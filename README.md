@@ -24,6 +24,7 @@ Problem: Standard Azure audits don't show the effective permissions of a Service
 Solution: This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.
 
 
+
 **Audit_MFA_Registration_Status.ps1**
 
 Problem: Needing a fast, modern way to audit which users have not registered any MFA methods.
