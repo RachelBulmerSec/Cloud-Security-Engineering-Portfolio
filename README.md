@@ -23,30 +23,30 @@ Problem: Standard Azure audits don't show the effective permissions of a Service
 
 Solution: This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.
 
-Audit_MFA_Registration_Status.ps1
+**Audit_MFA_Registration_Status.ps1**
 
 Problem: Needing a fast, modern way to audit which users have not registered any MFA methods.
 
 Solution: Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods.
 
-Utility_Get_OAuth_Token.ps1
+**Utility_Get_OAuth_Token.ps1**
 
 Problem: Needing to programmatically get an OAuth 2.0 token for a service principal to interact with a custom API.
 
 Solution: A sanitized utility script demonstrating how to perform a client_credentials grant flow to acquire an access token from the Microsoft identity platform.
 
-Utility_Rotate_AzureAD_Password.ps1
+**Utility_Rotate_AzureAD_Password.ps1**
 
 Problem: Manually rotating passwords for Azure AD service accounts is tedious.
 
 Solution: A simple utility script to generate a strong random password and apply it to a specified Azure AD user account (by ObjectId).
 
-2. Endpoint Hardening (Intune Proactive Remediations)
+**2. Endpoint Hardening (Intune Proactive Remediations)**
 
 (Files stored in 02_Endpoint_Intune)
 A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
 
-Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1
+**Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1**
 
 Problem: A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline.
 
@@ -54,7 +54,7 @@ Detect: Exits with 1 (non-compliant) if the LAdmin account is found.
 
 Remediate: Removes the LAdmin account from the local machine.
 
-Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1
+**Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1**
 
 Problem: A critical shared folder (synced via OneDrive) has a dynamic path (C:\Users\...) making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem.
 
@@ -62,7 +62,7 @@ Detect: Dynamically searches the user's profile and all OneDrive sync locations 
 
 Remediate: Performs the same dynamic search and then uses subst to create a persistent mapped drive for the user.
 
-Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1
+**Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1**
 
 Problem: Key remote administration firewall rules (like for Ping, Remote Registry) are sometimes disabled, blocking administrative tools.
 
@@ -70,79 +70,79 @@ Detect: Checks the status of key firewall rule groups ("Remote Event Log Managem
 
 Remediate: Re-enables all required firewall rule groups for remote administration.
 
-Intune_Remediate_Uninstall_Software.ps1
+**Intune_Remediate_Uninstall_Software.ps1**
 
 Problem: A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints.
 
 Solution: This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it.
 
-Endpoint_Enforce_RegChanges.ps1
+**Endpoint_Enforce_RegChanges.ps1**
 
 Problem: Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions").
 
 Solution: A simple but effective script to directly set registry values, designed to be deployed via Intune.
-
-3. Auditing & Reporting
+**
+3. Auditing & Reporting**
 
 (Files stored in 03_Audit_Reporting)
 Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
 
-Audit_Exchange_SharedMailboxes.ps1
+**Audit_Exchange_SharedMailboxes.ps1**
 
 Problem: Need to find unused or inactive shared mailboxes for cleanup.
 
 Solution: Connects to Exchange Online and audits all shared mailboxes for their last login and last email access time.
 
-Audit_Defender_ASR_Rules.ps1
+**Audit_Defender_ASR_Rules.ps1**
 
 Problem: Need to verify that Attack Surface Reduction (ASR) rules are correctly applied and configured on endpoints.
 
 Solution: Audits the local machine's MpPreference to report all configured ASR rules and their current state ("Block", "Audit", "Disabled").
 
-Audit_DotNetFramework_Versions.ps1 / Audit_DotNetCore_Versions.ps1
+**Audit_DotNetFramework_Versions.ps1 / Audit_DotNetCore_Versions.ps1**
 
 Problem: Need to audit endpoints for outdated and vulnerable .NET runtimes.
 
 Solution: Two separate scripts that audit the registry and file system to report all installed versions of .NET Framework and .NET Core.
 
-Audit_Email_Scheduled_Tasks.ps1
+**Audit_Email_Scheduled_Tasks.ps1**
 
 Problem: Need to audit all Scheduled Tasks on a locked-down server (like a Domain Controller) for persistence mechanisms.
 
 Solution: Gets all scheduled tasks, exports them to a CSV, and securely emails the report to an administrator using credentials.
-
-Audit_Registry_TrustedSites.ps1
+**
+Audit_Registry_TrustedSites.ps1**
 
 Problem: Need to audit Internet Explorer "Trusted Sites" registry keys for potential misconfigurations or security risks.
 
 Solution: Recursively audits the ZoneMap registry keys to export a list of all configured "Trusted Sites".
 
-Reporting_O365_Tenant_Report.ps1
+**Reporting_O365_Tenant_Report.ps1**
 
 Problem: Need a comprehensive, high-level "state of the nation" report for a Microsoft 365 tenant.
 
 Solution: An adapted script that generates a multi-tabbed HTML report detailing user accounts, licenses, admin roles, groups, domains, and more. Demonstrates the ability to adapt and maintain existing community tools.
 
-Utility_Find_Python.ps1
+**Utility_Find_Python.ps1**
 
 Problem: Need to find all installed versions of Python on a machine, even those installed in user profiles.
 
 Solution: A utility script that searches all user profiles and common program paths to locate python.exe installations.
 
-Utility_Test_RemoteAccess.ps1
+**Utility_Test_RemoteAccess.ps1**
 
 Problem: A machine is online, but remote administration tools (like Event Viewer or Registry) are failing.
 
 Solution: A senior-level troubleshooting utility that, from the admin's machine, remotely tests Ping, WinRM connection, core service status (RPC, Remote Registry), and firewall rule state on the target computer.
 
-4. KQL Analytic Rules (Microsoft Sentinel)
+**4. KQL Analytic Rules (Microsoft Sentinel)**
 
 (Files stored in 04_Sentinel_KQL)
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
 
-4.1 Endpoint & ASR Detections
+**4.1 Endpoint & ASR Detections**
 
-Suspicious Child Process from msiexec.exe
+**Suspicious Child Process from msiexec.exe**
 
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
 
@@ -290,7 +290,7 @@ DeviceProcessEvents
     SHA256
 
 
-ASR - Process Creation from PsExec or WMI
+**ASR - Process Creation from PsExec or WMI**
 
 Purpose: ASR stands for 'Attack Surface Reduction'. This rule detects a common "lateral movement" technique where an attacker, already on one machine, uses legitimate admin tools (PsExec or WMI) to run commands on other machines in the network.
 
@@ -309,7 +309,7 @@ DeviceEvents
 | sort by Timestamp desc
 
 
-ASR - Credential Stealing from LSASS Detected
+**ASR - Credential Stealing from LSASS Detected**
 
 Purpose: This ASR rule specifically detects an attempt to steal passwords from the 'LSASS' process in memory—the digital equivalent of a password vault on Windows. This is a classic (and very serious) attacker technique used by tools like Mimikatz.
 
@@ -327,7 +327,7 @@ DeviceEvents
 | sort by Timestamp desc
 
 
-Ransomware-like Activity - Controlled Folder Access Violation
+**Ransomware-like Activity - Controlled Folder Access Violation**
 
 Purpose: This rule is a high-priority ransomware alarm. It detects when the 'Controlled Folder Access' (CFA) feature in Windows blocks an unauthorized program from modifying files in protected folders (like 'Documents'). This is a hallmark of a ransomware attack in its initial encryption phase.
 
@@ -345,7 +345,7 @@ DeviceEvents
 | sort by Timestamp desc
 
 
-WDAC Audit Event Detected
+**WDAC Audit Event Detected**
 
 Purpose: WDAC (Windows Defender Application Control) is a strict 'Application Control' policy. This rule simply alerts when a user tries to run a program that was blocked by the policy. It provides visibility into policy enforcement and helps identify if/when employees are attempting to run unauthorized software.
 
@@ -356,7 +356,7 @@ DeviceEvents
 | where ActionType contains "Audited"
 
 
-COM Registry Key Modified to Point to File in Color Profile Folder
+**COM Registry Key Modified to Point to File in Color Profile Folder**
 
 Purpose: Highly specific detection for a persistence technique involving modifying COM registry keys (CLSID) to point to the color profile folder (System32\spool\drivers\color) for persistent execution.
 
@@ -379,9 +379,9 @@ let guids = dynamic(["{ddc05a5a-351a-4e06-8eaf-54ec1bc2dcea}","{1f486a52-3cb1-48
   | extend HostNameDomain = iff(DomainIndex != -1, substring(DeviceName, DomainIndex + 1), DeviceName)
 
 
-4.2 Identity & Access Management Detections
+**4.2 Identity & Access Management Detections**
 
-Emergency Admin Login Detected
+**Emergency Admin Login Detected**
 
 Purpose: This is a high-priority alert for a specific 'break-glass' emergency administrator account. Nobody should be logging in with this account during normal operations. This alert ensures any use of this highly-privileged account (identified by its unique UserId) is immediately investigated.
 
@@ -401,7 +401,7 @@ SigninLogs
 | project TimeGenerated, Identity, OperationName, ResultType, ResultSignature, ResultDescription, IPAddress, Location, ResourceDisplayName, AppDisplayName, deviceId, operatingSystem, browser, deviceName, compliancy, managed
 
 
-Risky Sign in Detected
+**Risky Sign in Detected**
 
 Purpose: This rule validates that our automated MFA policies are working. It alerts when a user's sign-in is flagged as 'risky' by Microsoft (e.g., from a new country) and that sign-in was then correctly challenged by the "Require multifactor authentication for risky sign-ins" Conditional Access policy.
 
@@ -414,7 +414,7 @@ SigninLogs
 | where PolicyName contains "Require multifactor authentication for risky sign-ins"
 
 
-Sign-ins from IPs that attempt sign-ins to disabled accounts
+**Sign-ins from IPs that attempt sign-ins to disabled accounts**
 
 Purpose: This rule spots an attacker probing for active accounts. It finds IP addresses that tried to log into disabled accounts and then checks if that same IP successfully logged into an active account, indicating a successful breach and providing a high-confidence alert.
 
@@ -471,7 +471,7 @@ union isfuzzy=true aadSignin, aadNonInt
 | sort by IPInvestigationPriority desc
 
 
-SharePointFileOperation via devices with previously unseen user agents
+**SharePointFileOperation via devices with previously unseen user agents**
 
 Purpose: Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
 
@@ -523,9 +523,9 @@ MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
     | order by UserAgentSeenCount desc, UserAgent asc, UserId asc, Site_Url asc
 
 
-4.3 Threat Intelligence (TI) Detections
+**4.3 Threat Intelligence (TI) Detections**
 
-TI Map IP Entity to SigninLogs
+**TI Map IP Entity to SigninLogs**
 
 Purpose: Stands for 'Threat Intelligence Map'. This rule automatically checks all user sign-ins against a live, external list of known-malicious IP addresses (Threat Intelligence) to flag any employee sign-in originating from a command-and-control server.
 
@@ -568,7 +568,7 @@ TI
 | extend timestamp = SigninLogs_TimeGenerated, Name = tostring(split(UserPrincipalName, '@', 0)[0]), UPNSuffix = tostring(split(UserPrincipalName, '@', 1)[0])
 
 
-TI Map IP Entity to AzureActivity
+**TI Map IP Entity to AzureActivity**
 
 Purpose: Similar to the rule above, but this one checks administrator activity within Azure (like creating a virtual machine) against the same malicious IP list. This helps catch attackers who have already compromised an admin account and are using it to build infrastructure.
 
@@ -614,7 +614,7 @@ Caller, OperationNameValue, ActivityStatusValue, CategoryValue, ResourceId, Netw
 | extend AadUserId = iif(Caller !has '@', tostring(Caller), "")
 
 
-TI Map URL Entity to UrlClickEvents
+**TI Map URL Entity to UrlClickEvents**
 
 Purpose: This 'Threat Intelligence' rule scans the links users are clicking in their emails (via Microsoft Defender's "Safe Links"). It compares every clicked link against a live list of known-malicious phishing websites and alerts if there's a match.
 
@@ -652,9 +652,9 @@ let TI = materialize(ThreatIntelligenceIndicator
 | extend timestamp = UrlClickEvents_TimeGenerated, Name = tostring(split(AccountUpn, '@', 0)[0]), UPNSuffix = tostring(split(AccountUpn, '@', 1)[0])
 
 
-4.4 M365 & Exchange Detections
+**4.4 M365 & Exchange Detections**
 
-SharePointFileOperation via devices with previously unseen user agents
+**SharePointFileOperation via devices with previously unseen user agents**
 
 Purpose: Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
 
@@ -706,7 +706,7 @@ MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
     | order by UserAgentSeenCount desc, UserAgent asc, UserId asc, Site_Url asc
 
 
-SharePointFileOperation via previously unseen IPs
+**SharePointFileOperation via previously unseen IPs**
 
 Purpose: This rule detects anomalous file activity in SharePoint. It builds a 14-day baseline of who accesses what from which IP address. It then flags a user who, for example, suddenly downloads or uploads 25x (2500%) more files than their personal average from a specific IP, indicating a potential data breach or exfiltration.
 
