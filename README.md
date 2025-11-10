@@ -21,7 +21,7 @@ Scripts focused on auditing and securing identities in Azure Active Directory.
 
 Problem: Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group.
 
-Solution: This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.<br>
+Solution: This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts. &nbsp;
 
 **Audit_MFA_Registration_Status.ps1**
 
