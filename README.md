@@ -12,8 +12,8 @@ Modern API & Automation: A focus on using the modern Microsoft Graph API (as opp
 
 KQL Threat Hunting: Custom, tuned KQL queries for proactive threat hunting in Microsoft Sentinel, focused on high-fidelity, low-noise alerts.
 
-## **1. Identity & Access Management (IAM)**
-
+### **1. Identity & Access Management (IAM)**
+___
 (Files stored in 01_Identity_IAM)
 Scripts focused on auditing and securing identities in Azure Active Directory.
 
