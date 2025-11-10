@@ -147,7 +147,7 @@ This section contains a collection of custom-built KQL queries I have developed 
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
 
 MITRE ATT&CK Tactic(s): Defense Evasion
-
+```kql
 // This query is specifically tuned to hunt for suspicious child processes
 // spawned by msiexec.exe. These are often indicators of defense evasion
 // or malicious payload execution.
@@ -208,7 +208,7 @@ DeviceProcessEvents
     InitiatingProcessParentFileName,
     InitiatingProcessVersionInfoOriginalFileName
 | sort by Timestamp desc
-
+```
 
 Untrusted process detected on device
 
