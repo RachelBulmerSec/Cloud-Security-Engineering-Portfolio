@@ -26,6 +26,8 @@ Solution: This advanced script audits all Service Principals, finds their direct
 
 <hr style="border:0; height:1px; background-color:#f0f0f0;">
 
+<div style="height: 1px; background-color: #eeeeee; margin: 15px 0;"></div>
+
 **Audit_MFA_Registration_Status.ps1**
 
 Problem: Needing a fast, modern way to audit which users have not registered any MFA methods.
