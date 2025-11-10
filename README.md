@@ -2,7 +2,7 @@
 
 This repository contains a collection of PowerShell scripts I have authored for security auditing, endpoint hardening, and automation within a Microsoft 365 and Azure environment. These tools demonstrate practical, hands-on experience in solving real-world engineering challenges, moving beyond "out-of-the-box" configurations to build custom, automated, and secure solutions.
 
-**Portfolio Highlights**
+### **Portfolio Highlights**
 
 Advanced Identity Auditing: Scripts that audit complex, inherited permissions for Azure Service Principals and report on modern MFA registration status.
 
