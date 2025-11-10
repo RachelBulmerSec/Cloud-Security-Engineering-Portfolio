@@ -1,0 +1,11 @@
+SigninLogs
+| where UserId contains "XXX-XXX" //Insert Account UID here
+| extend parsedData = parse_json(DeviceDetail)
+| extend deviceId = tostring(parsedData.deviceId)
+| extend deviceName = tostring(parsedData.displayName)
+| extend compliancy = tostring(parsedData.isCompliant)
+| extend managed = tostring(parsedData.isManaged)
+| extend operatingSystem = tostring(parsedData.operatingSystem)
+| extend browser = tostring(parsedData.browser)
+| project-away DeviceDetail, parsedData
+| project TimeGenerated, Identity, OperationName, ResultType, ResultSignature, ResultDescription, IPAddress, Location, ResourceDisplayName, AppDisplayName, deviceId, operatingSystem, browser, deviceName, compliancy, managed
