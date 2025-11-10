@@ -1,0 +1,4 @@
+SigninLogs
+| where RiskLevelAggregated != "none"
+| mv-expand PolicyDetails = ConditionalAccessPolicies
+| project TimeGenerated, UserPrincipalName, PolicyName = tostring(PolicyDetails.displayName), ConditionalAccessStatus, RiskLevelAggregated
