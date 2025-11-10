@@ -142,7 +142,7 @@ ___
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
 
 ### **4.1 Endpoint & ASR Detections**
-___
+===
 ### _**Suspicious Child Process from msiexec.exe**_
 
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
