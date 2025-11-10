@@ -211,7 +211,6 @@ DeviceProcessEvents
 | sort by Timestamp desc
 ```
 <br>
-<br>
 
 ### _**Untrusted process detected on device**_
 
