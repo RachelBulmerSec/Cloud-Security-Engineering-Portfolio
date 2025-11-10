@@ -1,0 +1,61 @@
+// This query is specifically tuned to hunt for suspicious child processes
+// spawned by msiexec.exe. These are often indicators of defense evasion
+// or malicious payload execution.
+let suspiciousChildren = dynamic([
+    "powershell.exe",
+    "pwsh.exe",
+    "cmd.exe",
+    "wscript.exe",
+    "cscript.exe",
+    "rundll32.exe",
+    "net.exe",
+    "net1.exe",
+    "whoami.exe",
+    "certutil.exe",
+    "bitsadmin.exe",
+    "regsvr32.exe"
+    ]);
+DeviceProcessEvents
+| where InitiatingProcessFileName =~ "msiexec.exe"
+| where FileName in~ (suspiciousChildren)
+| where not (
+            // Exclusion for Intune-related rundll32.exe processes
+            (
+    FileName =~ "rundll32.exe" and
+    (
+    ProcessCommandLine contains "IntuneWindowsAgent.SideCar.Setup" or
+    ProcessCommandLine contains "SideCarSetupCustomActions" or
+    (ProcessCommandLine contains "ClientBroker" and ProcessCommandLine contains "CustomActions")
+    )
+    )
+    or
+    // Consolidated exclusions for HP processes running via cmd.exe
+    (
+    FileName =~ "cmd.exe" and
+    (
+    ProcessCommandLine contains @"\HP\HP System Default Settings\" or
+    ProcessCommandLine contains @"Hewlett-Packard"
+    )
+    )
+    or
+    // NEW: Exclusion for HP Sure Click uninstallation script
+    (
+    FileName =~ "powershell.exe" and
+    ProcessCommandLine contains @"HP\Sure Click\" and 
+    ProcessCommandLine contains @"Deploy-SBXEdge.ps1" and
+    ProcessCommandLine contains "-Uninstall"
+    )
+        )
+| project
+    Timestamp,
+    DeviceName,
+    AccountName,
+    InitiatingProcessFileName,
+    InitiatingProcessCommandLine,
+    FileName,
+    ProcessCommandLine,
+    SHA256,
+    InitiatingProcessParentFileName,
+    InitiatingProcessVersionInfoOriginalFileName
+| sort by Timestamp desc
+
