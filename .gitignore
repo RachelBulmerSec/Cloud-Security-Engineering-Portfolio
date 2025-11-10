@@ -1,0 +1,20 @@
+# Exclude Visual Studio Code temporary/settings files
+.vscode/
+
+# Exclude common test result files
+Test-*.xml
+*.tests.json
+
+# Exclude temporary and editor-specific files
+*~
+*.bak
+*.tmp
+*.log
+*.DS_Store # Mac OS
+Thumbs.db  # Windows
+
+# Exclude PowerShell-specific generated files
+*.pdb
+*.psd1
+.history
+.psake
