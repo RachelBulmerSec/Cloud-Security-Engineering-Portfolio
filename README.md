@@ -135,14 +135,14 @@ Solution: A utility script that searches all user profiles and common program pa
 Problem: A machine is online, but remote administration tools (like Event Viewer or Registry) are failing.
 
 Solution: A senior-level troubleshooting utility that, from the admin's machine, remotely tests Ping, WinRM connection, core service status (RPC, Remote Registry), and firewall rule state on the target computer.
-
-## **4. KQL Analytic Rules (Microsoft Sentinel)**
 ___
+## **4. KQL Analytic Rules (Microsoft Sentinel)**
+
 (Files stored in 04_Sentinel_KQL)
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
 
 ### **4.1 Endpoint & ASR Detections**
-===
+
 ### _**Suspicious Child Process from msiexec.exe**_
 
 Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
