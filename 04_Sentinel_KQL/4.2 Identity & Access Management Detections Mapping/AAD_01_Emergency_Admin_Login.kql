@@ -1,5 +1,5 @@
 SigninLogs
-| where UserId contains "d57de9bd-cf2d-4e98-a49c-4d98f15b47b0"
+| where UserId contains "XXX-XXX"//Insert account UID here
 | extend parsedData = parse_json(DeviceDetail)
 | extend deviceId = tostring(parsedData.deviceId)
 | extend deviceName = tostring(parsedData.displayName)
