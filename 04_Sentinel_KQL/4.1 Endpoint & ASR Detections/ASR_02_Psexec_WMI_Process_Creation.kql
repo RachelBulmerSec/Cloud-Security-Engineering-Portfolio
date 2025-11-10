@@ -1,0 +1,11 @@
+DeviceEvents
+| where ActionType in ("AsrPsexecWmiChildProcessAudited", "AsrPsexecWmiChildProcessBlocked")
+| project Timestamp,
+          DeviceName,
+          InitiatingProcessFileName,
+          InitiatingProcessCommandLine,
+          FileName,
+          ProcessCommandLine,
+          InitiatingAccount = InitiatingProcessAccountName,
+          ActionType
+| sort by Timestamp desc
