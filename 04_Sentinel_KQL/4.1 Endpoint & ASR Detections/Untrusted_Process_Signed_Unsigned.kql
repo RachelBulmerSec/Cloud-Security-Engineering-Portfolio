@@ -1,0 +1,72 @@
+// --- Configuration: Define trusted properties ---
+let trustedSigners = dynamic([
+    "Microsoft Corporation",
+    "Adobe Inc.",
+    "Microsoft Windows",
+    "Adobe Systems, Incorporated",
+    "Microsoft Windows Publisher",
+    "PaperCut Software Pty Ltd",
+    "Lenovo",
+    "Microsoft Windows Hardware Compatibility Publisher",
+    "Google LLC",
+    "Elliptic Laboratories ASA",
+    "ConnectWise, Inc.",
+    "Dolby Laboratories, Inc.",
+    "HP Inc.",
+    "Microsoft Dynamic Code Publisher",
+    "Intel Corporation",
+    "Realtek Semiconductor Corp.",
+    "Intel(R) pGFX",
+    "Microsoft 3rd Party Application Component",
+    "GN AUDIO A/S",
+    "Adobe Systems Incorporated",
+    "Good Way Technology Co., Ltd.",
+    "Johannes Schindelin"
+]);
+let trustedPathPrefixes = dynamic([
+    @"C:\Program Files\",
+    @"C:\Program Files (x86)\",
+    @"C:\Windows\System32\",
+    @"C:\Windows\SysWOW64\",
+    @"C:\Windows\Microsoft.NET\",
+    @"C:\Windows\SystemApps\" 
+]);
+// --- Main Hunting Query ---
+DeviceProcessEvents
+| where Timestamp > ago(1h) // Use appropriate time window for analytic rule frequency
+// --- ADDED FILTER FOR SPECIFIC COMMAND ---
+| where FileName == "StartMenuExperienceHost.exe"
+    and SHA256 == "68e2255ececae067300be751839d84cbbf888872a372c40903b49394870a118d"
+| join kind=leftouter (DeviceFileCertificateInfo) on SHA1
+// --- MODIFIED TRUST LOGIC ---
+| extend 
+    IsSignerTrusted = Signer in (trustedSigners) and IsTrusted == true,
+    // --- REVERTED TO SUPPORTED LOGIC ---
+    IsPathTrusted = FolderPath startswith trustedPathPrefixes[0] or
+                    FolderPath startswith trustedPathPrefixes[1] or
+                    FolderPath startswith trustedPathPrefixes[2] or
+                    FolderPath startswith trustedPathPrefixes[3] or
+                    FolderPath startswith trustedPathPrefixes[4] or 
+                    FolderPath startswith trustedPathPrefixes[5],
+    IsTrustedGoogleUpdater = (Signer == "Google LLC" or (isempty(Signer) and InitiatingProcessFileName == "updater.exe")) and FileName == "updater.exe",
+    IsTrustedTeamsSetup = (Signer == "Microsoft Corporation" or Signer == "Microsoft") and FileName == "MSTeamsSetup.exe",
+    IsTrustedPaperCutUpdater = (Signer == "PaperCut Software Pty Ltd" and FileName == "pc-print-client-updater.exe")
+// --- Core Filter with all exceptions ---
+| where IsSignerTrusted == false 
+    and IsPathTrusted == false 
+    and IsTrustedGoogleUpdater == false 
+    and IsTrustedTeamsSetup == false
+    and IsTrustedPaperCutUpdater == false
+// --- Summarization for Analytic Rule ---
+| summarize EventCount = count(), LastSeen = max(Timestamp), take_any(*) by DeviceName, FileName, FolderPath, Signer, InitiatingProcessFileName, ProcessCommandLine
+// --- Final Projection for Alert Details ---
+| project
+    LastSeen,
+    DeviceName,
+    FileName,
+    FolderPath,
+    Signer,
+    EventCount,
+    ProcessCommandLine,
+    InitiatingProcessFileName,
+    SHA256
