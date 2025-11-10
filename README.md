@@ -212,7 +212,6 @@ DeviceProcessEvents
 ```
 <br>
 <br>
-</br>
 
 ### _**Untrusted process detected on device**_
 
