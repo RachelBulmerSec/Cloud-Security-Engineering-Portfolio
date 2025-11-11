@@ -22,30 +22,9 @@ Scripts focused on auditing and securing identities in Azure Active Directory.
 |---------|---------|-----------|
 |**Audit_Azure_ServicePrincipal _Permissions.ps1** | Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group. |  This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.|
 |**Audit_MFA_Registration_Status.ps1** | Needing a fast, modern way to audit which users have not registered any MFA methods. | Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods. |
+| **Utility_Get_OAuth_Token.ps1** | Needing to programmatically get an OAuth 2.0 token for a service principal to interact with a custom API. | A sanitized utility script demonstrating how to perform a client_credentials grant flow to acquire an access token from the Microsoft identity platform.|
+| **Utility_Rotate_AzureAD_Password.ps1** | Manually rotating passwords for Azure AD service accounts is tedious. | A simple utility script to generate a strong random password and apply it to a specified Azure AD user account (by ObjectId). |
 
-
-<hr style="border:0; height:1px; background-color:#f0f0f0;">
-
-
-**Audit_MFA_Registration_Status.ps1**
-
-- Problem: Needing a fast, modern way to audit which users have not registered any MFA methods.
-
-- Solution: Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods.
-
-<hr style="border:0; height:1px; background-color:#f0f0f0;">
-
-**Utility_Get_OAuth_Token.ps1**
-
-Problem: Needing to programmatically get an OAuth 2.0 token for a service principal to interact with a custom API.
-
-Solution: A sanitized utility script demonstrating how to perform a client_credentials grant flow to acquire an access token from the Microsoft identity platform.
-
-**Utility_Rotate_AzureAD_Password.ps1**
-
-Problem: Manually rotating passwords for Azure AD service accounts is tedious.
-
-Solution: A simple utility script to generate a strong random password and apply it to a specified Azure AD user account (by ObjectId).
 
 ### **2. Endpoint Hardening (Intune Proactive Remediations)**
 ___
