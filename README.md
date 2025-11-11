@@ -4,16 +4,16 @@
 <table>
   <thead>
     <tr>
-      <th width="30%">Filename</th>
-      <th width="35%">Problem</th>
-      <th width="35%">Solution</th>
+      <th width="20%">Filename</th>
+      <th width="45%">Problem</th>
+      <th width="45%">Solution</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Audit_Azure_ServicePrincipal_Permissions.ps1</td>
-      <td>Standard audits don't show effective permissions...</td>
-      <td>Advanced script finds direct RBAC and inherited permissions...</td>
+      <td>Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group.</td>
+      <td>This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.</td>
     </tr>
     </tbody>
 </table>
