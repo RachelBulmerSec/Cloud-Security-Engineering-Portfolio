@@ -36,24 +36,9 @@ A collection of Detection and Remediation script pairs designed for deployment v
 |---------|---------|-----------|--------|
 | **Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1** | A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline. | Exits with 1 (non-compliant) if the LAdmin account is found. | Removes the LAdmin account from the local machine. |
 | **Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1** | A critical shared folder (synced via OneDrive) has a dynamic path (C:\Users\...) making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem. | Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path. | Performs the same dynamic search and then uses subst to create a persistent mapped drive for the user. |
+| **Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1** | Key remote administration firewall rules (like for Ping, Remote Registry) are sometimes disabled, blocking administrative tools. | Checks the status of key firewall rule groups ("Remote Event Log Management," etc.). Exits with 1 if any are disabled. | Re-enables all required firewall rule groups for remote administration. |
 
 
-
-**Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1**
-
-Problem: A critical shared folder (synced via OneDrive) has a dynamic path (C:\Users\...) making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem.
-
-Detect: Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path.
-
-Remediate: Performs the same dynamic search and then uses subst to create a persistent mapped drive for the user.
-
-**Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1**
-
-Problem: Key remote administration firewall rules (like for Ping, Remote Registry) are sometimes disabled, blocking administrative tools.
-
-Detect: Checks the status of key firewall rule groups ("Remote Event Log Management," etc.). Exits with 1 if any are disabled.
-
-Remediate: Re-enables all required firewall rule groups for remote administration.
 
 **Intune_Remediate_Uninstall_Software.ps1**
 
