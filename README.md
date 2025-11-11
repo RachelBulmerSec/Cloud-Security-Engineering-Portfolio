@@ -4,9 +4,9 @@
 <table>
   <thead>
     <tr>
-      <th width="20%">Filename</th>
+      <th width="10%">Filename</th>
       <th width="45%">Problem</th>
-      <th width="45%">Solution</th>
+      <th width="55%">Solution</th>
     </tr>
   </thead>
   <tbody>
