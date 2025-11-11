@@ -1,22 +1,6 @@
 # **Rachel Bulmer's Security Engineering Portfolio**
 
 
-<table>
-  <thead>
-    <tr>
-      <th width="0%">Filename</th>
-      <th width="45%">Problem</th>
-      <th width="55%">Solution</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Audit_Azure_ServicePrincipal_Permissions.ps1</td>
-      <td>Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group.</td>
-      <td>This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.</td>
-    </tr>
-    </tbody>
-</table>
 
 This repository contains a collection of PowerShell scripts I have authored for security auditing, endpoint hardening, and automation within a Microsoft 365 and Azure environment. These tools demonstrate practical, hands-on experience in solving real-world engineering challenges, moving beyond "out-of-the-box" configurations to build custom, automated, and secure solutions.
 
