@@ -4,7 +4,7 @@
 <table>
   <thead>
     <tr>
-      <th width="10%">Filename</th>
+      <th width="0%">Filename</th>
       <th width="45%">Problem</th>
       <th width="55%">Solution</th>
     </tr>
