@@ -51,53 +51,17 @@ ___
 #### (Files stored in 03_Audit_Reporting)
 Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
 
-**Audit_Exchange_SharedMailboxes.ps1**
+|Filename | Problem | Soloution |
+|---------|---------|-----------|
+| **Audit_Exchange_SharedMailboxes.ps1** | Need to find unused or inactive shared mailboxes for cleanup. | Connects to Exchange Online and audits all shared mailboxes for their last login and last email access time. |
+| **Audit_Defender_ASR_Rules.ps1** | Need to verify that Attack Surface Reduction (ASR) rules are correctly applied and configured on endpoints. | Audits the local machine's MpPreference to report all configured ASR rules and their current state ("Block", "Audit", "Disabled"). |
+| **Audit_DotNetFramework_Versions.ps1 / Audit_DotNetCore_Versions.ps1** | Need to audit endpoints for outdated and vulnerable .NET runtimes. | Two separate scripts that audit the registry and file system to report all installed versions of .NET Framework and .NET Core. |
+| **Audit_Email_Scheduled_Tasks.ps1** | Problem: Need to audit all Scheduled Tasks on a locked-down server (like a Domain Controller) for persistence mechanisms. | Solution: Gets all scheduled tasks, exports them to a CSV, and securely emails the report to an administrator using credentials. |
+| **Audit_Registry_TrustedSites.ps1** | Need to audit Internet Explorer "Trusted Sites" registry keys for potential misconfigurations or security risks. | Recursively audits the ZoneMap registry keys to export a list of all configured "Trusted Sites". |
+| **Reporting_O365_Tenant_Report.ps1** | Need a comprehensive, high-level "state of the nation" report for a Microsoft 365 tenant. | An adapted script that generates a multi-tabbed HTML report detailing user accounts, licenses, admin roles, groups, domains, and more. Demonstrates the ability to adapt and maintain existing community tools. |
+| **Utility_Find_Python.ps1** | Need to find all installed versions of Python on a machine, even those installed in user profiles. | A utility script that searches all user profiles and common program paths to locate python.exe installations. |
+| **Utility_Test_RemoteAccess.ps1** | Problem: A machine is online, but remote administration tools (like Event Viewer or Registry) are failing. | A senior-level troubleshooting utility that, from the admin's machine, remotely tests Ping, WinRM connection, core service status (RPC, Remote Registry), and firewall rule state on the target computer. |
 
-Problem: Need to find unused or inactive shared mailboxes for cleanup.
-
-Solution: Connects to Exchange Online and audits all shared mailboxes for their last login and last email access time.
-
-**Audit_Defender_ASR_Rules.ps1**
-
-Problem: Need to verify that Attack Surface Reduction (ASR) rules are correctly applied and configured on endpoints.
-
-Solution: Audits the local machine's MpPreference to report all configured ASR rules and their current state ("Block", "Audit", "Disabled").
-
-**Audit_DotNetFramework_Versions.ps1 / Audit_DotNetCore_Versions.ps1**
-
-Problem: Need to audit endpoints for outdated and vulnerable .NET runtimes.
-
-Solution: Two separate scripts that audit the registry and file system to report all installed versions of .NET Framework and .NET Core.
-
-**Audit_Email_Scheduled_Tasks.ps1**
-
-Problem: Need to audit all Scheduled Tasks on a locked-down server (like a Domain Controller) for persistence mechanisms.
-
-Solution: Gets all scheduled tasks, exports them to a CSV, and securely emails the report to an administrator using credentials.
-**
-Audit_Registry_TrustedSites.ps1**
-
-Problem: Need to audit Internet Explorer "Trusted Sites" registry keys for potential misconfigurations or security risks.
-
-Solution: Recursively audits the ZoneMap registry keys to export a list of all configured "Trusted Sites".
-
-**Reporting_O365_Tenant_Report.ps1**
-
-Problem: Need a comprehensive, high-level "state of the nation" report for a Microsoft 365 tenant.
-
-Solution: An adapted script that generates a multi-tabbed HTML report detailing user accounts, licenses, admin roles, groups, domains, and more. Demonstrates the ability to adapt and maintain existing community tools.
-
-**Utility_Find_Python.ps1**
-
-Problem: Need to find all installed versions of Python on a machine, even those installed in user profiles.
-
-Solution: A utility script that searches all user profiles and common program paths to locate python.exe installations.
-
-**Utility_Test_RemoteAccess.ps1**
-
-Problem: A machine is online, but remote administration tools (like Event Viewer or Registry) are failing.
-
-Solution: A senior-level troubleshooting utility that, from the admin's machine, remotely tests Ping, WinRM connection, core service status (RPC, Remote Registry), and firewall rule state on the target computer.
 ___
 ## **4. KQL Analytic Rules (Microsoft Sentinel)**
 
