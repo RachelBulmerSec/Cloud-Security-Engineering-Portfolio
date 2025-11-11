@@ -48,7 +48,7 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 ### **3. Auditing & Reporting**
 ___
-(Files stored in 03_Audit_Reporting)
+#### (Files stored in 03_Audit_Reporting)
 Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
 
 **Audit_Exchange_SharedMailboxes.ps1**
