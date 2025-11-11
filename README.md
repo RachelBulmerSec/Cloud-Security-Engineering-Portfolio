@@ -18,7 +18,7 @@ KQL Threat Hunting: Custom, tuned KQL queries for proactive threat hunting in Mi
 ___
 #### (Files stored in 01_Identity_IAM)
 Scripts focused on auditing and securing identities in Azure Active Directory.
-|Filename | Problem | Soloution |
+|Filename | Problem | Solution |
 |---------|---------|-----------|
 |**Audit_Azure_ServicePrincipal _Permissions.ps1** | Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group. |  This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.|
 |**Audit_MFA_Registration_Status.ps1** | Needing a fast, modern way to audit which users have not registered any MFA methods. | Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods. |
@@ -32,7 +32,7 @@ ___
 #### (Files stored in 02_Endpoint_Intune)
 A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
 
-|Filename | Problem | Detect | Soloution |
+|Filename | Problem | Detect | Solution |
 |---------|---------|-----------|--------|
 | **Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1** | A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline. | Exits with 1 (non-compliant) if the LAdmin account is found. | Removes the LAdmin account from the local machine. |
 | **Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1** | A critical shared folder (synced via OneDrive) has a dynamic path (C:\Users\...) making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem. | Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path. | Performs the same dynamic search and then uses subst to create a persistent mapped drive for the user. |
@@ -40,7 +40,7 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 <br>
 
-|Filename | Problem | Soloution |
+|Filename | Problem | Solution |
 |---------|---------|-----------|
 | **Intune_Remediate_Uninstall_Software.ps1** | A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints. | This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it. |
 | **Endpoint_Enforce_RegChanges.ps1** | Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions"). |  A simple but effective script to directly set registry values, designed to be deployed via Intune. |
@@ -51,7 +51,7 @@ ___
 #### (Files stored in 03_Audit_Reporting)
 Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
 
-|Filename | Problem | Soloution |
+|Filename | Problem | Solution |
 |---------|---------|-----------|
 | **Audit_Exchange_SharedMailboxes.ps1** | Need to find unused or inactive shared mailboxes for cleanup. | Connects to Exchange Online and audits all shared mailboxes for their last login and last email access time. |
 | **Audit_Defender_ASR_Rules.ps1** | Need to verify that Attack Surface Reduction (ASR) rules are correctly applied and configured on endpoints. | Audits the local machine's MpPreference to report all configured ASR rules and their current state ("Block", "Audit", "Disabled"). |
