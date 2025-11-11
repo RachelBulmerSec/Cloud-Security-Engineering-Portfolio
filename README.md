@@ -25,13 +25,16 @@ Scripts focused on auditing and securing identities in Azure Active Directory.
 | **Utility_Get_OAuth_Token.ps1** | Needing to programmatically get an OAuth 2.0 token for a service principal to interact with a custom API. | A sanitized utility script demonstrating how to perform a client_credentials grant flow to acquire an access token from the Microsoft identity platform.|
 | **Utility_Rotate_AzureAD_Password.ps1** | Manually rotating passwords for Azure AD service accounts is tedious. | A simple utility script to generate a strong random password and apply it to a specified Azure AD user account (by ObjectId). |
 
+<br>
 
 ### **2. Endpoint Hardening (Intune Proactive Remediations)**
 ___
-(Files stored in 02_Endpoint_Intune)
+#### (Files stored in 02_Endpoint_Intune)
 A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
 
-**Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1**
+|Filename | Problem | Detect | Soloution |
+|---------|---------|-----------|--------|
+| **Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1** | A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline. | Exits with 1 (non-compliant) if the LAdmin account is found. | Removes the LAdmin account from the local machine. |
 
 Problem: A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline.
 
