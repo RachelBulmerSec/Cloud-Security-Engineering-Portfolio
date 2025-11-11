@@ -35,12 +35,9 @@ A collection of Detection and Remediation script pairs designed for deployment v
 |Filename | Problem | Detect | Soloution |
 |---------|---------|-----------|--------|
 | **Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1** | A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline. | Exits with 1 (non-compliant) if the LAdmin account is found. | Removes the LAdmin account from the local machine. |
+| **Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1** | A critical shared folder (synced via OneDrive) has a dynamic path (C:\Users\...) making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem. | Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path. | Performs the same dynamic search and then uses subst to create a persistent mapped drive for the user. |
 
-Problem: A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline.
 
-Detect: Exits with 1 (non-compliant) if the LAdmin account is found.
-
-Remediate: Removes the LAdmin account from the local machine.
 
 **Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1**
 
