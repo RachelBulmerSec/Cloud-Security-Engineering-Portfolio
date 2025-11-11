@@ -19,7 +19,6 @@ Scripts focused on auditing and securing identities in Azure Active Directory.
 |Filename | Problem | Soloution |
 |---------|---------|-----------|
 |**Audit_Azure_ServicePrincipal _Permissions.ps1** | Problem: Standard Azure audits don't show the effective permissions of a Service Principal, especially permissions inherited from being in a group. | Solution: This advanced script audits all Service Principals, finds their direct Azure RBAC roles, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying over-privileged service accounts.|
-|---------|---------|-----------|
 |**Audit_MFA_Registration_Status.ps1** | - Problem: Needing a fast, modern way to audit which users have not registered any MFA methods. | - Solution: Uses the Microsoft Graph API (Get-MgUserAuthenticationMethod) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods.
 
 
