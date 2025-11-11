@@ -38,19 +38,13 @@ A collection of Detection and Remediation script pairs designed for deployment v
 | **Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1** | A critical shared folder (synced via OneDrive) has a dynamic path (C:\Users\...) making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem. | Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path. | Performs the same dynamic search and then uses subst to create a persistent mapped drive for the user. |
 | **Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1** | Key remote administration firewall rules (like for Ping, Remote Registry) are sometimes disabled, blocking administrative tools. | Checks the status of key firewall rule groups ("Remote Event Log Management," etc.). Exits with 1 if any are disabled. | Re-enables all required firewall rule groups for remote administration. |
 
+<br>
 
+|Filename | Problem | Soloution |
+|---------|---------|-----------|
+| **Intune_Remediate_Uninstall_Software.ps1** | A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints. | This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it. |
+| **Endpoint_Enforce_RegChanges.ps1** | Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions"). |  A simple but effective script to directly set registry values, designed to be deployed via Intune. |
 
-**Intune_Remediate_Uninstall_Software.ps1**
-
-Problem: A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints.
-
-Solution: This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it.
-
-**Endpoint_Enforce_RegChanges.ps1**
-
-Problem: Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions").
-
-Solution: A simple but effective script to directly set registry values, designed to be deployed via Intune.
 
 ### **3. Auditing & Reporting**
 ___
