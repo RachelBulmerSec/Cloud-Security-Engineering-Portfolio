@@ -1,5 +1,23 @@
 # **Rachel Bulmer's Security Engineering Portfolio**
 
+
+<table>
+  <thead>
+    <tr>
+      <th width="30%">Filename</th>
+      <th width="35%">Problem</th>
+      <th width="35%">Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Audit_Azure_ServicePrincipal_Permissions.ps1</td>
+      <td>Standard audits don't show effective permissions...</td>
+      <td>Advanced script finds direct RBAC and inherited permissions...</td>
+    </tr>
+    </tbody>
+</table>
+
 This repository contains a collection of PowerShell scripts I have authored for security auditing, endpoint hardening, and automation within a Microsoft 365 and Azure environment. These tools demonstrate practical, hands-on experience in solving real-world engineering challenges, moving beyond "out-of-the-box" configurations to build custom, automated, and secure solutions.
 
 ## **Portfolio Highlights**
