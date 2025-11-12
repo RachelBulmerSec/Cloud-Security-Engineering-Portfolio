@@ -1,4 +1,4 @@
-# **Rachel Bulmer's Security Engineering Portfolio**
+# Rachel Bulmer's Security Engineering Portfolio
 
 
 
@@ -795,7 +795,7 @@ UserBehaviorAnalysis
 
 <br>
 
-### _**Malicious Inbox Rule**_
+####  `Malicious Inbox Rule`
 
 Purpose: Detects when an attacker, after compromising an email account, creates an 'Inbox Rule' to hide their tracks. This rule specifically looks for rules that automatically delete emails containing keywords like 'phishing', 'malicious', or 'suspicious', which attackers use to prevent the real user from seeing warning messages.
 
