@@ -156,7 +156,7 @@ Scripts designed for inventory, auditing, and reporting on the security posture 
 * **Solution:** A senior-level troubleshooting utility that, from the admin's machine, remotely tests **Ping, WinRM connection, core service status** (RPC, Remote Registry), and firewall rule state on the target computer.
 
 ___
-## **4. KQL Analytic Rules (Microsoft Sentinel)**
+## 🔎 **4. KQL Analytic Rules (Microsoft Sentinel)**
 
 (Files stored in 04_Sentinel_KQL)
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
