@@ -161,13 +161,13 @@ ___
 (Files stored in 04_Sentinel_KQL)
 This section contains a collection of custom-built KQL queries I have developed for threat hunting and creating high-fidelity analytic rules in Microsoft Sentinel. These queries are custom-built solutions designed to solve specific detection challenges and have been tuned with environment-specific exclusions to reduce false positives.
 
-### **4.1 Endpoint & ASR Detections**
+### 4.1 Endpoint & ASR Detections
 
-### _**Suspicious Child Process from msiexec.exe**_
+#### `Suspicious Child Process from msiexec.exe`
 
-Purpose: Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
+* **Purpose:** Detects when the legitimate Windows Installer (msiexec.exe) spawns a known attacker tool (e.g., PowerShell, cmd, cscript). The rule is custom-tuned to exclude known-good processes from HP and Intune to reduce alert noise.
 
-MITRE ATT&CK Tactic(s): Defense Evasion
+* **MITRE ATT&CK Tactic(s):** Defense Evasion
 ```kql
 // This query is specifically tuned to hunt for suspicious child processes
 // spawned by msiexec.exe. These are often indicators of defense evasion
@@ -232,11 +232,11 @@ DeviceProcessEvents
 ```
 <br>
 
-### _**Untrusted process detected on device**_
+#### `Untrusted process detected on device`
 
-Purpose: Ensures that only approved, digitally-signed applications can run. This rule flags any process that runs from an untrusted folder (like a 'Downloads' folder) and isn't signed by a trusted vendor (like Microsoft or Google). This is a common attacker technique to run malicious tools.
+* **Purpose:** Ensures that only approved, digitally-signed applications can run. This rule flags any process that runs from an untrusted folder (like a 'Downloads' folder) and isn't signed by a trusted vendor (like Microsoft or Google). This is a common attacker technique to run malicious tools.
 
-MITRE ATT&CK Tactic(s): Defense Evasion
+* **MITRE ATT&CK Tactic(s):** Defense Evasion
 ```kql
 // --- Configuration: Define trusted properties ---
 let trustedSigners = dynamic([
@@ -314,11 +314,11 @@ DeviceProcessEvents
 
 <br>
 
-### _**ASR - Process Creation from PsExec or WMI**_
+#### `ASR - Process Creation from PsExec or WMI`
 
-Purpose: ASR stands for 'Attack Surface Reduction'. This rule detects a common "lateral movement" technique where an attacker, already on one machine, uses legitimate admin tools (PsExec or WMI) to run commands on other machines in the network.
+* **Purpose:** ASR stands for 'Attack Surface Reduction'. This rule detects a common "lateral movement" technique where an attacker, already on one machine, uses legitimate admin tools (PsExec or WMI) to run commands on other machines in the network.
 
-MITRE ATT&CK Tactic(s): Lateral Movement, Execution
+* **MITRE ATT&CK Tactic(s):** Lateral Movement, Execution
 ```kql
 DeviceEvents
 | where ActionType in ("AsrPsexecWmiChildProcessAudited", "AsrPsexecWmiChildProcessBlocked")
@@ -335,11 +335,11 @@ DeviceEvents
 
 <br>
 
-### _**ASR - Credential Stealing from LSASS Detected**_
+#### `ASR - Credential Stealing from LSASS Detected`
 
-Purpose: This ASR rule specifically detects an attempt to steal passwords from the 'LSASS' process in memory—the digital equivalent of a password vault on Windows. This is a classic (and very serious) attacker technique used by tools like Mimikatz.
+* **Purpose:** This ASR rule specifically detects an attempt to steal passwords from the 'LSASS' process in memory—the digital equivalent of a password vault on Windows. This is a classic (and very serious) attacker technique used by tools like Mimikatz.
 
-MITRE ATT&CK Tactic(s): Credential Access
+* **MITRE ATT&CK Tactic(s):** Credential Access
 ```kql
 DeviceEvents
 | where ActionType in ("AsrLsassCredentialTheftAudited", "AsrLsassCredentialTheftBlocked")
@@ -357,9 +357,9 @@ DeviceEvents
 
 ### _**Ransomware-like Activity - Controlled Folder Access Violation**_
 
-Purpose: This rule is a high-priority ransomware alarm. It detects when the 'Controlled Folder Access' (CFA) feature in Windows blocks an unauthorized program from modifying files in protected folders (like 'Documents'). This is a hallmark of a ransomware attack in its initial encryption phase.
+* **Purpose:** This rule is a high-priority ransomware alarm. It detects when the 'Controlled Folder Access' (CFA) feature in Windows blocks an unauthorized program from modifying files in protected folders (like 'Documents'). This is a hallmark of a ransomware attack in its initial encryption phase.
 
-MITRE ATT&CK Tactic(s): Impact
+* **MITRE ATT&CK Tactic(s):** Impact
 ```kql
 DeviceEvents
 | where ActionType in ("ControlledFolderAccessViolationAudited", "ControlledFolderAccessViolationBlocked")
@@ -375,11 +375,11 @@ DeviceEvents
 
 <br>
 
-### _**WDAC Audit Event Detected**_
+#### `WDAC Audit Event Detected`
 
-Purpose: WDAC (Windows Defender Application Control) is a strict 'Application Control' policy. This rule simply alerts when a user tries to run a program that was blocked by the policy. It provides visibility into policy enforcement and helps identify if/when employees are attempting to run unauthorized software.
+* **Purpose:** WDAC (Windows Defender Application Control) is a strict 'Application Control' policy. This rule simply alerts when a user tries to run a program that was blocked by the policy. It provides visibility into policy enforcement and helps identify if/when employees are attempting to run unauthorized software.
 
-MITRE ATT&CK Tactic(s): Defense Evasion, Execution
+* **MITRE ATT&CK Tactic(s):** Defense Evasion, Execution
 ```kql
 DeviceEvents
 | where ActionType startswith "AppControlCodeIntegrity"
@@ -387,11 +387,11 @@ DeviceEvents
 ```
 <br>
 
-### _**COM Registry Key Modified to Point to File in Color Profile Folder**_
+#### `COM Registry Key Modified to Point to File in Color Profile Folder`
 
-Purpose: Highly specific detection for a persistence technique involving modifying COM registry keys (CLSID) to point to the color profile folder (System32\spool\drivers\color) for persistent execution.
+* **Purpose:** Highly specific detection for a persistence technique involving modifying COM registry keys (CLSID) to point to the color profile folder (System32\spool\drivers\color) for persistent execution.
 
-MITRE ATT&CK Tactic(s): Persistence
+* **MITRE ATT&CK Tactic(s):** Persistence
 ```kql
 let guids = dynamic(["{ddc05a5a-351a-4e06-8eaf-54ec1bc2dcea}","{1f486a52-3cb1-48fd-8f50-b8dc300d9f9d}","{4590f811-1d3a-11d0-891f-00aa004b2e24}", "{4de225bf-cf59-4cfc-85f7-68b90f185355}", "{F56F6FDD-AA9D-4618-A949-C1B91AF43B1A}"]);
   let mde_data = DeviceRegistryEvents
@@ -412,13 +412,13 @@ let guids = dynamic(["{ddc05a5a-351a-4e06-8eaf-54ec1bc2dcea}","{1f486a52-3cb1-48
 
 <br>
 
-## **4.2 Identity & Access Management Detections**
+### 4.2 Identity & Access Management Detections
 
-### _**Emergency Admin Login Detected**_
+#### `Emergency Admin Login Detected`
 
-Purpose: This is a high-priority alert for a specific 'break-glass' emergency administrator account. Nobody should be logging in with this account during normal operations. This alert ensures any use of this highly-privileged account (identified by its unique UserId) is immediately investigated.
+* **Purpose:** This is a high-priority alert for a specific 'break-glass' emergency administrator account. Nobody should be logging in with this account during normal operations. This alert ensures any use of this highly-privileged account (identified by its unique UserId) is immediately investigated.
 
-MITRE ATT&CK Tactic(s): Persistence, Privilege Escalation, Defense Evasion
+* **MITRE ATT&CK Tactic(s):** Persistence, Privilege Escalation, Defense Evasion
 ```kql
 SigninLogs
 // GUID redacted for security (placeholder added). This targets a specific 'break-glass' account.
@@ -436,11 +436,11 @@ SigninLogs
 
 <br>
 
-### _**Risky Sign in Detected**_
+#### `Risky Sign in Detected`
 
-Purpose: This rule validates that our automated MFA policies are working. It alerts when a user's sign-in is flagged as 'risky' by Microsoft (e.g., from a new country) and that sign-in was then correctly challenged by the "Require multifactor authentication for risky sign-ins" Conditional Access policy.
+* **Purpose:** This rule validates that our automated MFA policies are working. It alerts when a user's sign-in is flagged as 'risky' by Microsoft (e.g., from a new country) and that sign-in was then correctly challenged by the "Require multifactor authentication for risky sign-ins" Conditional Access policy.
 
-MITRE ATT&CK Tactic(s): Initial Access
+* **MITRE ATT&CK Tactic(s):** Initial Access
 ```kql
 SigninLogs
 | where RiskLevelAggregated != "none"
@@ -451,11 +451,11 @@ SigninLogs
 
 <br>
 
-### _**Sign-ins from IPs that attempt sign-ins to disabled accounts**_
+#### `Sign-ins from IPs that attempt sign-ins to disabled accounts`
 
-Purpose: This rule spots an attacker probing for active accounts. It finds IP addresses that tried to log into disabled accounts and then checks if that same IP successfully logged into an active account, indicating a successful breach and providing a high-confidence alert.
+* **Purpose:** This rule spots an attacker probing for active accounts. It finds IP addresses that tried to log into disabled accounts and then checks if that same IP successfully logged into an active account, indicating a successful breach and providing a high-confidence alert.
 
-MITRE ATT&CK Tactic(s): Initial Access, Persistence
+* **MITRE ATT&CK Tactic(s):** Initial Access, Persistence
 ```kql
 let aadFunc = (tableName: string) {
 let failed_signins = table(tableName)
@@ -511,11 +511,11 @@ union isfuzzy=true aadSignin, aadNonInt
 
 <br>
 
-### _**SharePointFileOperation via devices with previously unseen user agents**_
+#### `SharePointFileOperation via devices with previously unseen user agents`
 
-Purpose: Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
+* **Purpose:** Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
 
-MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
+* **MITRE ATT&CK Tactic(s):** Defense Evasion, Initial Access
 ```kql
 // Set threshold for the number of downloads/uploads from a new user agent
   let threshold = 5;
@@ -563,13 +563,13 @@ MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
     | order by UserAgentSeenCount desc, UserAgent asc, UserId asc, Site_Url asc
 ```
 
-## **4.3 Threat Intelligence (TI) Detections**
+### 4.3 Threat Intelligence (TI) Detections
 
-### _**TI Map IP Entity to SigninLogs**_
+#### `TI Map IP Entity to SigninLogs`
 
-Purpose: Stands for 'Threat Intelligence Map'. This rule automatically checks all user sign-ins against a live, external list of known-malicious IP addresses (Threat Intelligence) to flag any employee sign-in originating from a command-and-control server.
+* **Purpose:** Stands for 'Threat Intelligence Map'. This rule automatically checks all user sign-ins against a live, external list of known-malicious IP addresses (Threat Intelligence) to flag any employee sign-in originating from a command-and-control server.
 
-MITRE ATT&CK Tactic(s): Command And Control
+* **MITRE ATT&CK Tactic(s):** Command And Control
 ```kql
 let dt_lookBack = 1h;
 let ioc_lookBack = 14d;
@@ -610,11 +610,11 @@ TI
 
 <br>
 
-### _**TI Map IP Entity to AzureActivity**_
+#### `TI Map IP Entity to AzureActivity`
 
-Purpose: Similar to the rule above, but this one checks administrator activity within Azure (like creating a virtual machine) against the same malicious IP list. This helps catch attackers who have already compromised an admin account and are using it to build infrastructure.
+* **Purpose:** Similar to the rule above, but this one checks administrator activity within Azure (like creating a virtual machine) against the same malicious IP list. This helps catch attackers who have already compromised an admin account and are using it to build infrastructure.
 
-MITRE ATT&CK Tactic(s): Command And Control
+* **MITRE ATT&CK Tactic(s):** Command And Control
 ```kql
 let dt_lookBack = 1h; // Look back 1 hour for AzureActivity logs
 let ioc_lookBack = 14d; // Look back 14 days for threat intelligence indicators
@@ -658,11 +658,11 @@ Caller, OperationNameValue, ActivityStatusValue, CategoryValue, ResourceId, Netw
 
 <br>
 
-### _**TI Map URL Entity to UrlClickEvents**_
+#### `TI Map URL Entity to UrlClickEvents`
 
-Purpose: This 'Threat Intelligence' rule scans the links users are clicking in their emails (via Microsoft Defender's "Safe Links"). It compares every clicked link against a live list of known-malicious phishing websites and alerts if there's a match.
+* **Purpose:** This 'Threat Intelligence' rule scans the links users are clicking in their emails (via Microsoft Defender's "Safe Links"). It compares every clicked link against a live list of known-malicious phishing websites and alerts if there's a match.
 
-MITRE ATT&CK Tactic(s): Command And Control
+* **MITRE ATT&CK Tactic(s):** Command And Control
 ```kql
 let dt_lookBack = 1h;
 let ioc_lookBack = 14d;
@@ -696,13 +696,13 @@ let TI = materialize(ThreatIntelligenceIndicator
 | extend timestamp = UrlClickEvents_TimeGenerated, Name = tostring(split(AccountUpn, '@', 0)[0]), UPNSuffix = tostring(split(AccountUpn, '@', 1)[0])
 ```
 
-## **4.4 M365 & Exchange Detections**
+### 4.4 M365 & Exchange Detections
 
-### _**SharePointFileOperation via devices with previously unseen user agents**_
+#### `SharePointFileOperation via devices with previously unseen user agents`
 
-Purpose: Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
+* **Purpose:** Detects when a user accesses SharePoint from a new device or browser they've never used before. This query builds a 14-day baseline of "normal" User Agents for each user and then flags any new ones, which could indicate a session-hijacking attempt.
 
-MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
+* **MITRE ATT&CK Tactic(s):** Defense Evasion, Initial Access
 ```kql
 // Set threshold for the number of downloads/uploads from a new user agent
   let threshold = 5;
@@ -752,11 +752,11 @@ MITRE ATT&CK Tactic(s): Defense Evasion, Initial Access
 
 <br>
 
-### _**SharePointFileOperation via previously unseen IPs**_
+#### `SharePointFileOperation via previously unseen IPs`
 
-Purpose: This rule detects anomalous file activity in SharePoint. It builds a 14-day baseline of who accesses what from which IP address. It then flags a user who, for example, suddenly downloads or uploads 25x (2500%) more files than their personal average from a specific IP, indicating a potential data breach or exfiltration.
+* **Purpose:** This rule detects anomalous file activity in SharePoint. It builds a 14-day baseline of who accesses what from which IP address. It then flags a user who, for example, suddenly downloads or uploads 25x (2500%) more files than their personal average from a specific IP, indicating a potential data breach or exfiltration.
 
-MITRE ATT&CK Tactic(s): Exfiltration
+* **MITRE ATT&CK Tactic(s):** Exfiltration
 ```kql
 // Define a threshold for significant deviations
 let threshold = 25;
@@ -797,9 +797,9 @@ UserBehaviorAnalysis
 
 ####  `Malicious Inbox Rule`
 
-Purpose: Detects when an attacker, after compromising an email account, creates an 'Inbox Rule' to hide their tracks. This rule specifically looks for rules that automatically delete emails containing keywords like 'phishing', 'malicious', or 'suspicious', which attackers use to prevent the real user from seeing warning messages.
+* **Purpose:** Detects when an attacker, after compromising an email account, creates an 'Inbox Rule' to hide their tracks. This rule specifically looks for rules that automatically delete emails containing keywords like 'phishing', 'malicious', or 'suspicious', which attackers use to prevent the real user from seeing warning messages.
 
-MITRE ATT&CK Tactic(s): Persistence, Defense Evasion
+* **MITRE ATT&CK Tactic(s):** Persistence, Defense Evasion
 ```kql
 let Keywords = dynamic(["helpdesk", " alert", " suspicious", "fake", "malicious", "phishing", "spam", "do not click", "do not open", "hijacked", "Fatal"]);
 OfficeActivity
