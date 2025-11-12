@@ -47,6 +47,39 @@ Scripts focused on auditing and securing identities in Azure Active Directory.
 * **Problem:** Manually rotating passwords for Azure AD service accounts is tedious.
 * **Solution:** A simple utility script to generate a strong random password and apply it to a specified **Azure AD user account** (by ObjectId).
 
+<br>
+
+## 2. Endpoint Hardening (Intune Proactive Remediations)
+
+(Files stored in `02_Endpoint_Intune`)
+A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
+
+---
+
+### 🛡️ Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1
+
+* **Problem:** A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline.
+* **Detection (Detect):** Exits with `1` (non-compliant) if the LAdmin account is found.
+* **Solution (Remediation):** Removes the LAdmin account from the local machine.
+
+---
+
+### 🛡️ Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1
+
+* **Problem:** A critical shared folder (synced via OneDrive) has a dynamic path (e.g., `C:\Users\...`), making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem.
+* **Detection (Detect):** Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path.
+* **Solution (Remediation):** Performs the same dynamic search and then uses `subst` to create a persistent mapped drive for the user.
+
+---
+
+### 🛡️ Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1
+
+* **Problem:** Key remote administration firewall rules (like for Ping, Remote Registry) are sometimes disabled, blocking administrative tools.
+* **Detection (Detect):** Checks the status of key firewall rule groups ("Remote Event Log Management," etc.). Exits with `1` if any are disabled.
+* **Solution (Remediation):** Re-enables all required firewall rule groups for remote administration.
+
+---
+
 ### **2. Endpoint Hardening (Intune Proactive Remediations)**
 ___
 #### (Files stored in 02_Endpoint_Intune)
