@@ -14,49 +14,49 @@ Modern API & Automation: A focus on using the modern Microsoft Graph API (as opp
 
 KQL Threat Hunting: Custom, tuned KQL queries for proactive threat hunting in Microsoft Sentinel, focused on high-fidelity, low-noise alerts.
 
-## 1. Identity & Access Management (IAM)
+##  🔑 1. Identity & Access Management (IAM)
 
 (Files stored in `01_Identity_IAM`)
 Scripts focused on auditing and securing identities in Azure Active Directory.
 
 ---
 
-### 🔑 `Audit_Azure_ServicePrincipal_Permissions.ps1`
+###  `Audit_Azure_ServicePrincipal_Permissions.ps1`
 
 * **Problem:** Standard Azure audits don't show the effective permissions of a **Service Principal**, especially permissions inherited from being in a group.
 * **Solution:** This advanced script audits all Service Principals, finds their direct **Azure RBAC roles**, and then recursively audits their group memberships to find all inherited permissions. This is critical for identifying **over-privileged service accounts**.
 
 ---
 
-### 🔑 `Audit_MFA_Registration_Status.ps1`
+###  `Audit_MFA_Registration_Status.ps1`
 
 * **Problem:** Needing a fast, modern way to audit which users have not registered any **MFA** methods.
 * **Solution:** Uses the **Microsoft Graph API** (`Get-MgUserAuthenticationMethod`) to get a definitive report of all users who have no MFA methods registered. This is superior to older, deprecated AzureAD module methods.
 
 ---
 
-### 🔑 `Utility_Get_OAuth_Token.ps1`
+###  `Utility_Get_OAuth_Token.ps1`
 
 * **Problem:** Needing to programmatically get an **OAuth 2.0 token** for a service principal to interact with a custom API.
 * **Solution:** A sanitized utility script demonstrating how to perform a **`client_credentials` grant flow** to acquire an access token from the Microsoft identity platform.
 
 ---
 
-### 🔑 `Utility_Rotate_AzureAD_Password.ps1`
+###  `Utility_Rotate_AzureAD_Password.ps1`
 
 * **Problem:** Manually rotating passwords for Azure AD service accounts is tedious.
 * **Solution:** A simple utility script to generate a strong random password and apply it to a specified **Azure AD user account** (by ObjectId).
 
 <br>
 
-## 2. Endpoint Hardening (Intune Proactive Remediations)
+## 🛡️ 2. Endpoint Hardening (Intune Proactive Remediations)
 
 (Files stored in `02_Endpoint_Intune`)
 A collection of Detection and Remediation script pairs designed for deployment via Microsoft Intune to enforce endpoint compliance.
 
 ---
 
-### 🛡️ Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1
+###  Intune_Detect_LocalAdmin.ps1 / Intune_Remediate_LocalAdmin.ps1
 
 * **Problem:** A rogue local administrator account (LAdmin) exists on some endpoints, violating the security baseline.
 * **Detection (Detect):** Exits with `1` (non-compliant) if the LAdmin account is found.
@@ -64,7 +64,7 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 ---
 
-### 🛡️ Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1
+###  Intune_Detect_MappedDrive.ps1 / Intune_Remediate_MappedDrive.ps1
 
 * **Problem:** A critical shared folder (synced via OneDrive) has a dynamic path (e.g., `C:\Users\...`), making traditional GPO mapping impossible. This is a robust solution for a complex, real-world engineering problem.
 * **Detection (Detect):** Dynamically searches the user's profile and all OneDrive sync locations to find the correct path. It then checks if the 'S:' drive is mapped correctly to this dynamic path.
@@ -72,7 +72,7 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 ---
 
-### 🛡️ Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1
+###  Intune_Detect_RemoteAccess.ps1 / Intune_Remediate_RemoteAccess.ps1
 
 * **Problem:** Key remote administration firewall rules (like for Ping, Remote Registry) are sometimes disabled, blocking administrative tools.
 * **Detection (Detect):** Checks the status of key firewall rule groups ("Remote Event Log Management," etc.). Exits with `1` if any are disabled.
@@ -80,14 +80,14 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 ---
 
-### 🛡️ Intune_Remediate_Uninstall_Software.ps1
+###  Intune_Remediate_Uninstall_Software.ps1
 
 * **Problem:** A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints.
 * **Solution (Remediation):** This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it.
 
 ---
 
-### 🛡️ Endpoint_Enforce_RegChanges.ps1
+###  Endpoint_Enforce_RegChanges.ps1
 
 * **Problem:** Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions").
 * **Solution (Enforcement):** A simple but effective script to directly set registry values, designed to be deployed via Intune.
@@ -101,31 +101,59 @@ Scripts designed for inventory, auditing, and reporting on the security posture 
 
 ---
 
-### 📝 `Audit_Exchange_SharedMailboxes.ps1`
+###  `Audit_Exchange_SharedMailboxes.ps1`
 
 * **Problem:** Need to find unused or inactive shared mailboxes for cleanup.
 * **Solution:** Connects to **Exchange Online** and audits all shared mailboxes for their last login and last email access time.
 
 ---
 
-### 📝 `Audit_Defender_ASR_Rules.ps1`
+###  `Audit_Defender_ASR_Rules.ps1`
 
 * **Problem:** Need to verify that **Attack Surface Reduction (ASR)** rules are correctly applied and configured on endpoints.
 * **Solution:** Audits the local machine's `MpPreference` to report all configured ASR rules and their current state ("Block," "Audit," "Disabled").
 
 ---
 
-### 📝 `Audit_DotNetFramework_Versions.ps1` / `Audit_DotNetCore_Versions.ps1`
+###  `Audit_DotNetFramework_Versions.ps1` / `Audit_DotNetCore_Versions.ps1`
 
 * **Problem:** Need to audit endpoints for **outdated and vulnerable .NET runtimes** (both Framework and Core).
 * **Solution:** Two separate scripts that audit the registry and file system to report all installed versions of **.NET Framework** and **.NET Core**.
 
 ---
 
-### 📝 `Audit_Email_Scheduled_Tasks.ps1`
+###  `Audit_Email_Scheduled_Tasks.ps1`
 
 * **Problem:** Need to audit all Scheduled Tasks on a locked-down server (like a Domain Controller) for persistence mechanisms.
 * **Solution:** Gets all scheduled tasks, exports them to a **CSV**, and securely emails the report to an administrator using credentials.
+
+---
+
+###  `Audit_Registry_TrustedSites.ps1`
+
+* **Problem:** Need to audit Internet Explorer **"Trusted Sites"** registry keys for potential misconfigurations or security risks.
+* **Solution:** Recursively audits the **ZoneMap registry keys** to export a list of all configured "Trusted Sites".
+
+---
+
+###  `Reporting_O365_Tenant_Report.ps1`
+
+* **Problem:** Need a comprehensive, high-level **"state of the nation" report** for a Microsoft 365 tenant.
+* **Solution:** An adapted script that generates a multi-tabbed **HTML report** detailing user accounts, licenses, admin roles, groups, domains, and more. Demonstrates the ability to adapt and maintain existing community tools.
+
+---
+
+###  `Utility_Find_Python.ps1`
+
+* **Problem:** Need to find all installed versions of **Python** on a machine, even those installed in user profiles.
+* **Solution:** A utility script that searches all user profiles and common program paths to locate `python.exe` installations.
+
+---
+
+###  `Utility_Test_RemoteAccess.ps1`
+
+* **Problem:** A machine is online, but remote administration tools (like Event Viewer or Registry) are failing.
+* **Solution:** A senior-level troubleshooting utility that, from the admin's machine, remotely tests **Ping, WinRM connection, core service status** (RPC, Remote Registry), and firewall rule state on the target computer.
 
 ### **3. Auditing & Reporting**
 ___
