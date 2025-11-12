@@ -94,6 +94,39 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 ---
 
+## 📊 3. Auditing & Reporting
+
+(Files stored in `03_Audit_Reporting`)
+Scripts designed for inventory, auditing, and reporting on the security posture of endpoints and cloud services.
+
+---
+
+### 📝 `Audit_Exchange_SharedMailboxes.ps1`
+
+* **Problem:** Need to find unused or inactive shared mailboxes for cleanup.
+* **Solution:** Connects to **Exchange Online** and audits all shared mailboxes for their last login and last email access time.
+
+---
+
+### 📝 `Audit_Defender_ASR_Rules.ps1`
+
+* **Problem:** Need to verify that **Attack Surface Reduction (ASR)** rules are correctly applied and configured on endpoints.
+* **Solution:** Audits the local machine's `MpPreference` to report all configured ASR rules and their current state ("Block," "Audit," "Disabled").
+
+---
+
+### 📝 `Audit_DotNetFramework_Versions.ps1` / `Audit_DotNetCore_Versions.ps1`
+
+* **Problem:** Need to audit endpoints for **outdated and vulnerable .NET runtimes** (both Framework and Core).
+* **Solution:** Two separate scripts that audit the registry and file system to report all installed versions of **.NET Framework** and **.NET Core**.
+
+---
+
+### 📝 `Audit_Email_Scheduled_Tasks.ps1`
+
+* **Problem:** Need to audit all Scheduled Tasks on a locked-down server (like a Domain Controller) for persistence mechanisms.
+* **Solution:** Gets all scheduled tasks, exports them to a **CSV**, and securely emails the report to an administrator using credentials.
+
 ### **3. Auditing & Reporting**
 ___
 #### (Files stored in 03_Audit_Reporting)
