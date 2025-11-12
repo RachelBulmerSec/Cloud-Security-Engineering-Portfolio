@@ -80,13 +80,19 @@ A collection of Detection and Remediation script pairs designed for deployment v
 
 ---
 
+### 🛡️ Intune_Remediate_Uninstall_Software.ps1
 
+* **Problem:** A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints.
+* **Solution (Remediation):** This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it.
 
-|Filename | Problem | Solution |
-|---------|---------|-----------|
-| **Intune_Remediate_Uninstall_Software.ps1** | A specific, unapproved application (e.g., "Splashtop") needs to be removed from all endpoints. | This is a remediation-only script that runs as System, finds the application by name in WMI, and silently uninstalls it. |
-| **Endpoint_Enforce_RegChanges.ps1** | Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions"). |  A simple but effective script to directly set registry values, designed to be deployed via Intune. |
+---
 
+### 🛡️ Endpoint_Enforce_RegChanges.ps1
+
+* **Problem:** Need to enforce specific, non-standard registry settings for compliance or user experience (e.g., "Show File Extensions").
+* **Solution (Enforcement):** A simple but effective script to directly set registry values, designed to be deployed via Intune.
+
+---
 
 ### **3. Auditing & Reporting**
 ___
